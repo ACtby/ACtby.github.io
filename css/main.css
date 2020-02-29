@@ -1169,7 +1169,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #a629ff;
+  background: #ff8cff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2555,6 +2555,12 @@ mjx-container + br {
   padding: 25px;
   -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
   -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
+}
+body {
+  background-image: url("/images/background.gif");
+  background-attachment: fixed;
+  background-repeat: repeat;
+  background-size: contain;
 }
 .post-body p a {
   color: #0593d3;
