@@ -19,14 +19,14 @@
       <tags>
         <tag>DP</tag>
         <tag>NOIP</tag>
-        <tag>2006</tag>
         <tag>区间DP</tag>
         <tag>提高组</tag>
+        <tag>2006</tag>
       </tags>
   </entry>
   <entry>
-    <title>「NOIP2003」加分二叉树</title>
-    <url>/2020/02/27/%E3%80%8CNOIP2003%E3%80%8D%E5%8A%A0%E5%88%86%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    <title>「NOIp2003」加分二叉树</title>
+    <url>/2020/02/27/%E3%80%8CNOIp2003%E3%80%8D%E5%8A%A0%E5%88%86%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
     <content><![CDATA[<h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>设一个n个节点的二叉树tree的中序遍历为（1,2,3,…,n），其中数字1,2,3,…,n为节点编号。</p>
 <p>每个节点都有一个分数（均为正整数），记第i个节点的分数为$d_i$，tree及它的每个子树都有一个加分，任一棵子树subtree（也包含tree本身）的加分计算方法如下：</p>
 <p>subtree的左子树的加分 × subtree的右子树的加分 ＋ subtree的根的分数</p>
@@ -48,7 +48,7 @@
 <p>这显然就变成了一个区间合并问题</p>
 <p>状态转移方程为$f[i][j]=max(f[i][k-1]*f[k+1][j]+a[k])$，$k$枚举闭区间$[i,j]$的根，显然$k\epsilon [i,j]$</p>
 <p>再考虑边界条件，$f[i][j]$代表的为叶子结点，$f[i][i-1]$代表空子树，根据题意，于是就有了$f[i][i]=a[i],f[i][i-1]=1$</p>
-<p>最好题目好要输出前序遍历，于是我们加一个$root[i][j]$数组记录使$f[i][j]$最大的$k$(即根的下标)，放在循环里面就可以了</p>
+<p>最终题目要输出前序遍历，于是我们加一个$root[i][j]$数组记录使$f[i][j]$最大的$k$(即根的下标)，放在循环里面就可以了</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">50</span>;</span><br><span class="line"><span class="keyword">int</span> n,a[N],f[N][N],root[N][N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Output</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;r) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span>(l==r) &#123;<span class="built_in">printf</span>(<span class="string">"%d "</span>,l); <span class="keyword">return</span>;&#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d "</span>,root[l][r]);</span><br><span class="line">    Output(l,root[l][r]<span class="number">-1</span>),Output(root[l][r]+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n+<span class="number">1</span>;++i)</span><br><span class="line">        f[i][i]=a[i],f[i][i<span class="number">-1</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=n;i&gt;=<span class="number">1</span>;--i)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;++j)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k=i;k&lt;=j;++k)<span class="comment">//枚举[i,j]这个闭区间内的根</span></span><br><span class="line">                <span class="keyword">if</span>(f[i][j]&lt;(f[i][k<span class="number">-1</span>]*f[k+<span class="number">1</span>][j]+a[k]))</span><br><span class="line">                &#123;</span><br><span class="line">                    f[i][j]=f[i][k<span class="number">-1</span>]*f[k+<span class="number">1</span>][j]+a[k];</span><br><span class="line">                    root[i][j]=k;</span><br><span class="line">                &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,f[<span class="number">1</span>][n]);</span><br><span class="line">    Output(<span class="number">1</span>,n);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>题解</category>
@@ -56,9 +56,9 @@
       <tags>
         <tag>DP</tag>
         <tag>NOIP</tag>
+        <tag>2003</tag>
         <tag>区间DP</tag>
         <tag>提高组</tag>
-        <tag>2003</tag>
       </tags>
   </entry>
   <entry>
@@ -73,27 +73,6 @@
       </categories>
       <tags>
         <tag>博文模板</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/02/26/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<a id="more"></a>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>博客有关</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
       </tags>
   </entry>
 </search>
